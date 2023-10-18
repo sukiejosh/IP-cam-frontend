@@ -14,9 +14,9 @@ export const useUserStore = defineStore('users', {
         async getAllPhotos() {
             const userData = await fetcher('/upload')
             const { error, data } = userData
-            console.log('photos', data)
-
-            this.photos = data
+            // console.log('photos', data)
+            if (!!data == true && Array.isArray(data) && data.length > 0)
+                this.photos = data
         },
         setImage(i: number) {
             this.currentPhoto = this.photos[i]
