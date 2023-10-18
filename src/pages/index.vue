@@ -31,7 +31,7 @@
 						>
 							<div class="flex-1">
 								Speed {{ userStore.currentPhoto.speed }} | Time
-								{{ userStore.currentPhoto.time }}
+								{{ convertDate(userStore.currentPhoto.time) }}
 							</div>
 							<div class="flex-none">
 								<el-button
@@ -89,6 +89,10 @@
 		a.href = imageUrl;
 		a.download = `New_cam_image_${Date.now()}.jpg`;
 		a.click();
+	};
+
+	const convertDate = (date: string) => {
+		return date ? new Date(date).toLocaleString() : "";
 	};
 
 	const getImages = async () => {
