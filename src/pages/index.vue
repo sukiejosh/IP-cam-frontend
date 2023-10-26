@@ -25,6 +25,7 @@
 							:src="userStore.currentPhoto?.imageUrl"
 							class="h-full w-full"
 						/>
+						{{ date }}
 					</div>
 					<div class="flex w-full mx-auto justify-center">
 						<div
@@ -41,7 +42,7 @@
 									:icon="Download"
 									circle
 								/>
-								<el-button type="warning" :icon="Share" circle />
+								<!-- <el-button type="warning" :icon="Share" circle /> -->
 							</div>
 						</div>
 					</div>
@@ -50,17 +51,22 @@
 		</div>
 		<div class="flex-none">
 			<div class="flex flex-col pt-2">
-				<div class="w-full p-2">
+				<div class="text-xs">Filter by date</div>
+				<div class="w-full p-2 flex space-x-2 items-center">
 					<VDatePicker v-model="date">
-						<template #default="{ togglePopover }">
-							<button
-								class="px-3 py-2 bg-blue-500 text-sm text-white font-semibold rounded-md w-full"
-								@click="togglePopover"
-							>
-								Filter date
-							</button>
+						<template #default="{ inputValue, inputEvents }">
+							<el-input readonly :value="inputValue" v-on="inputEvents" />
 						</template>
 					</VDatePicker>
+					<div>
+						<el-button
+							@click="date = ''"
+							type="danger"
+							size="small"
+							:icon="Close"
+							circle
+						/>
+					</div>
 				</div>
 				<div
 					class="md:overflow-y-auto overflow-x-auto w-full min-h-[100px] max-h-[100vh] md:h-screen h-[200px] p-5 flex md:flex-col flex-row md:space-y-3 space-y-0 space-x-3 md:space-x-0"
@@ -68,7 +74,7 @@
 					<div
 						@click="userStore.setImage(i)"
 						:key="i"
-						v-for="(n, i) in userStore.photos"
+						v-for="(n, i) in filteredObjects"
 						class="bg-red-100 cursor-pointer md:w-40 md:h-40 h-20 w-20"
 					>
 						<img :src="n.imageUrl" class="shadow-xl w-full h-full rounded-xl" />
@@ -92,7 +98,7 @@
 
 <script lang="ts" setup>
 	import { useUserStore } from "~/store/user";
-	import { Download, Share } from "@element-plus/icons-vue";
+	import { Download, Share, Close } from "@element-plus/icons-vue";
 	const userStore = useUserStore();
 
 	const donwloadImage = (currentPhoto: any) => {
@@ -113,6 +119,36 @@
 		await userStore.getAllPhotos();
 		setTimeout(getImages, 1500);
 	};
+
+	function filterObjectsByDate(array: any, targetDate: any) {
+		if (!targetDate) return array;
+		// Convert the target date to a Date object
+		targetDate = new Date(targetDate);
+
+		// Calculate the start and end times for the target date
+		const startDate = new Date(targetDate);
+		startDate.setHours(0, 0, 0, 0); // Set to the start of the day
+		const endDate = new Date(targetDate);
+		endDate.setHours(23, 59, 59, 999); // Set to the end of the day
+
+		// Use the filter method to filter objects in the array
+		const filteredArray = array.filter((item) => {
+			// Convert the item's createdAt field to a Date object
+			const createdAtDate = new Date(item.createdAt);
+
+			// Check if the createdAt date falls within the start and end times
+			return createdAtDate >= startDate && createdAtDate <= endDate;
+		});
+
+		return filteredArray;
+	}
+
+	const startDate = "2023-09-18T00:00:00.000Z"; // Replace with your selected start date
+	const endDate = new Date().toISOString(); // Replace with your selected end date
+
+	const filteredObjects = computed(() => {
+		return filterObjectsByDate(userStore.photos, date.value);
+	});
 
 	onMounted(async () => {
 		await getImages();
