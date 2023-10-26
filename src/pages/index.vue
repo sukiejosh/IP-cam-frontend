@@ -25,7 +25,6 @@
 							:src="userStore.currentPhoto?.imageUrl"
 							class="h-full w-full"
 						/>
-						{{ date }}
 					</div>
 					<div class="flex w-full mx-auto justify-center">
 						<div
