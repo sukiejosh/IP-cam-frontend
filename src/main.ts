@@ -14,6 +14,12 @@ import 'element-plus/dist/index.css';
 import { setupLayouts } from 'virtual:generated-layouts';
 import generatedRoutes from 'virtual:generated-pages';
 import App from "./App.vue";
+import VCalendar from 'v-calendar';
+import 'v-calendar/style.css';
+
+
+
+
 
 const routes = setupLayouts(generatedRoutes)
 
@@ -34,4 +40,5 @@ const app = createApp(App);
 app.use(ElementPlus);
 app.use(router)
 app.use(pinia)
+app.use(VCalendar, {})
 app.mount("#app");
