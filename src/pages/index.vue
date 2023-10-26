@@ -8,18 +8,7 @@
 				<div class="flex-1">
 					<div class="text-left font-bold text-2xl">Project IP CAM</div>
 				</div>
-				<div class="flex-none">
-					<VDatePicker v-model="date">
-						<template #default="{ togglePopover }">
-							<button
-								class="px-3 py-2 bg-blue-500 text-sm text-white font-semibold rounded-md"
-								@click="togglePopover"
-							>
-								Select date
-							</button>
-						</template>
-					</VDatePicker>
-				</div>
+				<div class="flex-none"></div>
 			</div>
 			<div
 				class="flex mx-auto md:h-screen h-[70vh] items-center justify-center w-full"
@@ -60,16 +49,30 @@
 			</div>
 		</div>
 		<div class="flex-none">
-			<div
-				class="md:overflow-y-auto overflow-x-auto w-full min-h-[100px] max-h-[100vh] md:h-screen h-[200px] p-5 flex md:flex-col flex-row md:space-y-3 space-y-0 space-x-3 md:space-x-0"
-			>
+			<div class="flex flex-col pt-2">
+				<div class="w-full p-2">
+					<VDatePicker v-model="date">
+						<template #default="{ togglePopover }">
+							<button
+								class="px-3 py-2 bg-blue-500 text-sm text-white font-semibold rounded-md w-full"
+								@click="togglePopover"
+							>
+								Filter date
+							</button>
+						</template>
+					</VDatePicker>
+				</div>
 				<div
-					@click="userStore.setImage(i)"
-					:key="i"
-					v-for="(n, i) in userStore.photos"
-					class="bg-red-100 cursor-pointer md:w-40 md:h-40 h-20 w-20"
+					class="md:overflow-y-auto overflow-x-auto w-full min-h-[100px] max-h-[100vh] md:h-screen h-[200px] p-5 flex md:flex-col flex-row md:space-y-3 space-y-0 space-x-3 md:space-x-0"
 				>
-					<img :src="n.imageUrl" class="shadow-xl w-full h-full rounded-xl" />
+					<div
+						@click="userStore.setImage(i)"
+						:key="i"
+						v-for="(n, i) in userStore.photos"
+						class="bg-red-100 cursor-pointer md:w-40 md:h-40 h-20 w-20"
+					>
+						<img :src="n.imageUrl" class="shadow-xl w-full h-full rounded-xl" />
+					</div>
 				</div>
 			</div>
 		</div>
