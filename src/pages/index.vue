@@ -68,12 +68,13 @@
 						/>
 					</div>
 				</div>
-				<div
-					class="md:overflow-y-auto overflow-x-auto w-full min-h-[100px] max-h-[100vh] md:h-screen h-[200px] p-5 flex md:flex-col flex-row md:space-y-3 space-y-0 space-x-3 md:space-x-0"
-				>
-					<div v-if="filteredObjects.length > 0" class="">
+				<div>
+					<div
+						v-if="filteredObjects.length > 0"
+						class="md:overflow-y-auto overflow-x-auto w-full min-h-[100px] max-h-[100vh] md:h-screen h-[200px] p-5 flex md:flex-col flex-row md:space-y-3 space-y-0 space-x-3 md:space-x-0"
+					>
 						<div
-							@click="userStore.setImage(i)"
+							@click="userStore.setImage(n.id)"
 							:key="i"
 							v-for="(n, i) in filteredObjects"
 							class="bg-red-100 cursor-pointer md:w-40 md:h-40 h-20 w-20"

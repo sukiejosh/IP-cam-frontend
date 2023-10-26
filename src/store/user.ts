@@ -18,8 +18,8 @@ export const useUserStore = defineStore('users', {
             if (!!data == true && Array.isArray(data) && data.length > 0)
                 this.photos = data
         },
-        setImage(i: number) {
-            this.currentPhoto = this.photos[i]
+        setImage(id: string) {
+            this.currentPhoto = this.photos.find(x => x.id == id)
         }
     },
     persist: false
